@@ -1,0 +1,642 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Thiệp cưới · [Tên Chú Rể] &amp; [Tên Cô Dâu]</title>
+<link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500&family=Dancing+Script:wght@500&family=Playfair+Display:ital,wght@0,500;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#8e1a1d;--bg2:#6e1114;--ink:#fff3e6;--muted:#ebcfc4;--gold:#ecd08a;--line:#ecd08a66;--card:#fff3e60f;--btn:#5a0e10;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#721316;--bg2:#520c0f}}
+:root[data-theme="dark"]{--bg:#721316;--bg2:#520c0f}
+html{scroll-padding-top:env(safe-area-inset-top,0px);background:var(--bg)}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-weight:300;line-height:1.6;padding-bottom:84px;overflow-x:hidden}
+.locked{overflow:hidden;height:100vh}
+.locked .view,.locked .tabs{visibility:hidden}
+.pf,h2{font-family:"Playfair Display",Georgia,"Times New Roman",serif}
+.sc{font-family:"Dancing Script","Brush Script MT",cursive;color:var(--gold);font-weight:500}
+.view{display:none;position:relative;z-index:2}
+.view.on{display:block;animation:fade .6s ease both}
+#v-home.enter{animation:up 1.2s cubic-bezier(.2,.7,.2,1) both}
+section{padding:34px 22px;max-width:560px;margin:0 auto;text-align:center;position:relative}
+h2{font-weight:500;font-size:28px;color:var(--gold);margin:0 0 8px}
+.u{text-transform:uppercase;letter-spacing:.06em;font-weight:500}
+.big{font:700 22px "Playfair Display",Georgia,serif;letter-spacing:.08em;margin:2px 0 8px;color:var(--gold)}
+.msg{font-size:15px;color:var(--muted);font-style:italic;font-family:"Playfair Display",Georgia,serif;margin:0 0 14px}
+.par{display:grid;grid-template-columns:1fr 1fr;gap:14px;font:400 14px/1.55 "Playfair Display",Georgia,serif}
+.par small{display:block;font-weight:700;letter-spacing:.08em;margin-bottom:4px;color:var(--gold)}
+.par span{display:block;color:var(--muted);font-size:13px}
+.names{display:grid;grid-template-columns:1fr auto 1fr;gap:8px;align-items:center;margin:14px 0 18px}
+.names .sc{font-size:clamp(24px,7.5vw,34px);line-height:1.15}
+.names small{display:block;font:400 10px "Be Vietnam Pro",sans-serif;letter-spacing:.12em;color:var(--muted);text-transform:uppercase}
+.heart{color:#ffb3ba;font-size:20px}
+.pill{display:inline-block;border-top:1px solid var(--gold);border-radius:50%/20px 20px 0 0;padding:8px 30px 0;font:italic 20px "Playfair Display",Georgia,serif;margin:2px 0 10px}
+.dl{border-bottom:2px dotted var(--gold);width:78%;margin:16px auto 22px;height:1px}
+.venue{font-size:clamp(36px,11vw,50px);line-height:1.15;margin:6px 0 10px}
+.dt{display:grid;grid-template-columns:1fr 1.3fr 1fr;border-top:1px solid var(--gold);border-bottom:1px solid var(--gold);margin:16px 0 10px}
+.dt>div{padding:8px 4px;display:flex;flex-direction:column;justify-content:center;font:400 12px "Playfair Display",Georgia,serif;letter-spacing:.05em}
+.dt>div+div{border-left:1px solid var(--gold)}
+.dt b{font:700 30px/1.15 "Playfair Display",Georgia,serif}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px 18px;margin:14px 0;text-align:center}
+.card b{display:block;color:var(--gold);font-weight:500;margin-bottom:4px}
+.btn{display:inline-block;background:var(--gold);color:var(--btn);border:0;border-radius:999px;padding:13px 28px;font:500 15px "Be Vietnam Pro",system-ui,sans-serif;cursor:pointer;text-decoration:none;transition:transform .2s}
+.btn:active{transform:scale(.96)}
+.btn.ghost{background:transparent;color:var(--gold);border:1px solid var(--gold)}
+input,textarea{width:100%;padding:13px 14px;margin:0 0 12px;border:0;border-radius:12px;background:#fff3e6;color:#3a1a1b;font:300 15px "Be Vietnam Pro",system-ui,sans-serif}
+textarea{min-height:90px;resize:vertical}
+.note{min-height:22px;font-size:14px;margin:12px 0 0;color:var(--gold)}
+.rv{opacity:0;transform:translateY(26px);transition:opacity .9s ease,transform .9s cubic-bezier(.2,.7,.2,1)}
+.rv.in{opacity:1;transform:none}
+.show{position:relative;height:62vh;max-height:560px;border-radius:22px;overflow:hidden;background:var(--bg2);margin:14px 0;touch-action:pan-y;border:1px solid var(--line);box-shadow:0 14px 40px #0004}
+.slide{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity 1.3s ease}
+.slide.on{opacity:1;animation:kb 7s ease-out forwards}
+.ph{display:flex;align-items:center;justify-content:center;text-align:center;color:var(--gold);font:italic 22px/1.4 "Playfair Display",Georgia,serif;background:linear-gradient(135deg,#c2453f,#7a1214)}
+.ph:nth-child(even){background:linear-gradient(135deg,#a82a3a,#d4584f)}
+.nav-a{position:absolute;top:50%;transform:translateY(-50%);z-index:2;width:42px;height:42px;border-radius:50%;border:0;background:#0000004d;color:#fff;font-size:22px;cursor:pointer}
+.dots{display:flex;justify-content:center;gap:7px;margin-bottom:18px}
+.dots i{width:7px;height:7px;border-radius:50%;background:#ffffff40;transition:.4s}
+.dots i.on{background:var(--gold);width:20px;border-radius:6px}
+.acc{font:500 24px/1.2 "Be Vietnam Pro",system-ui,sans-serif;letter-spacing:.06em;margin:6px 0 12px;word-break:break-all}
+#bqr,#dqr{display:inline-block;background:#fff;padding:12px;border-radius:14px;margin:12px 0 4px;line-height:0}
+#bqr.empty,#dqr.empty{line-height:1.5;color:#7d5f5c;font-size:13px;padding:30px 18px;max-width:240px}
+.tabs{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;background:var(--bg2);border-top:1px solid var(--line);padding:6px 6px calc(8px + env(safe-area-inset-bottom,0px))}
+.tabs button{flex:1;border:0;background:none;color:var(--muted);font:400 13px "Be Vietnam Pro",system-ui,sans-serif;padding:10px 4px;cursor:pointer;position:relative;transition:color .3s}
+.tabs button::after{content:"";position:absolute;left:50%;top:0;width:0;height:2px;background:var(--gold);transition:.3s;transform:translateX(-50%)}
+.tabs button.on{color:var(--gold);font-weight:500}.tabs button.on::after{width:36px}
+footer{text-align:center;padding:26px 24px;color:var(--gold);font:italic 16px "Playfair Display",Georgia,serif}
+/* ô điền tên */
+.gn{min-height:54px;display:block;width:80%;margin:10px auto 22px;padding:8px 6px;background:transparent;border:0;border-bottom:2px dotted var(--gold);border-radius:0;text-align:center;font:500 28px "Dancing Script","Brush Script MT",cursive;color:var(--ink)}
+.gn::placeholder{color:#ecd08a99;font:italic 14px "Be Vietnam Pro",system-ui,sans-serif}
+/* bảng lời chúc */
+.bwrap{position:relative;margin-top:22px}
+.bwrap::after{content:"";position:absolute;left:0;right:0;bottom:0;height:56px;background:linear-gradient(to bottom,transparent,var(--bg));pointer-events:none;border-radius:0 0 14px 14px;transition:opacity .3s}
+.bwrap.end::after{opacity:0}
+.board{max-height:450px;overflow-y:auto;-webkit-overflow-scrolling:touch;scroll-snap-type:y proximity;scrollbar-width:thin;scrollbar-color:var(--gold) transparent}
+.board .wi{scroll-snap-align:start}
+.wi{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 16px;margin:10px 0;text-align:left}
+.wi.new{animation:up .8s cubic-bezier(.2,.7,.2,1) both}
+.wi .sc{font-size:22px;line-height:1.2}
+.wi p{margin:2px 0 0;font:italic 15px/1.5 "Playfair Display",Georgia,serif;word-break:break-word}
+.cnt{font-size:13px;color:var(--muted)}
+.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:18px 0}
+.pgrid img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px;border:1px solid var(--line);cursor:pointer;background:var(--bg2)}
+.lbimg{max-width:100%;max-height:86vh;border-radius:12px;box-shadow:0 10px 40px #0008}
+.qrwrap{margin-top:22px}
+.lang{position:fixed;top:calc(10px + env(safe-area-inset-top,0px));right:12px;z-index:45;display:flex;border:1px solid var(--gold);border-radius:999px;overflow:hidden;background:#6e1114cc;backdrop-filter:blur(4px)}
+.lang button{border:0;background:none;color:var(--gold);font:500 12px "Be Vietnam Pro",system-ui,sans-serif;padding:6px 11px;cursor:pointer;letter-spacing:.05em}
+.lang button.on{background:var(--gold);color:var(--btn)}
+/* hộp quà */
+.gbox{position:relative;display:block;margin:6px auto 4px;width:160px;height:176px;background:none;border:0;padding:0;cursor:pointer;color:var(--gold);font:italic 14px "Playfair Display",Georgia,serif;animation:wig 3.2s ease-in-out infinite}
+.gbox.open{animation:none}
+.gb{position:absolute;left:14px;right:14px;top:62px;height:92px;background:#fff3e6;border-radius:0 0 8px 8px;box-shadow:0 8px 18px #0004}
+.gb::before,.lid::before{content:"";position:absolute;left:50%;top:0;bottom:0;width:20px;margin-left:-10px;background:#c9303a}
+.lid{position:absolute;left:6px;right:6px;top:34px;height:30px;background:#fff3e6;border-radius:6px;border-bottom:2px solid #e6d2c2;z-index:2;transform-origin:left bottom;transition:transform .8s cubic-bezier(.3,1.5,.4,1);box-shadow:0 3px 8px #0003}
+.bow{position:absolute;left:50%;top:-20px;width:0;height:0;z-index:3}
+.bow::before,.bow::after{content:"";position:absolute;top:0;width:24px;height:22px;border:5px solid #c9303a;border-radius:50%}
+.bow::before{left:-26px;transform:rotate(-20deg)}
+.bow::after{left:2px;transform:rotate(20deg)}
+.gt{position:absolute;left:-10px;right:-10px;bottom:-4px}
+.gbox.open .lid{transform:translate(-22px,-38px) rotate(-26deg)}
+.modal{position:fixed;inset:0;z-index:40;display:flex;align-items:center;justify-content:center;padding:20px;background:#2a070aa8;backdrop-filter:blur(3px);animation:fade .3s both}
+.modal[hidden]{display:none}
+.mbox{position:relative;width:min(100%,380px);max-height:100%;overflow:auto;margin:0;background:var(--bg2);animation:pop .5s cubic-bezier(.2,1.4,.3,1) both}
+.x{position:absolute;right:8px;top:6px;width:38px;height:38px;border:0;border-radius:50%;background:none;color:var(--gold);font-size:28px;line-height:1;cursor:pointer}
+@keyframes pop{from{opacity:0;transform:scale(.7)}to{opacity:1;transform:scale(1)}}
+@keyframes wig{0%,86%,100%{transform:rotate(0)}89%{transform:rotate(-4deg)}92%{transform:rotate(4deg)}95%{transform:rotate(-3deg)}98%{transform:rotate(2deg)}}
+/* trái tim rơi */
+.hearts{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:30}
+.hearts span{position:absolute;top:-30px;color:#ffc2c8;animation:fall linear infinite}
+.hearts span:nth-child(3n){color:var(--gold)}.hearts span:nth-child(4n){color:#fff}
+/* phong thư */
+.env{position:fixed;inset:0;z-index:25;background:var(--bg2);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:40px;perspective:1100px;transition:opacity .8s ease,transform .8s ease}
+.env.done{opacity:0;transform:scale(1.12);pointer-events:none}
+.ev{position:relative;width:min(86vw,400px);aspect-ratio:1.5;filter:drop-shadow(0 18px 28px #0007)}
+.ev>*{position:absolute}
+.eb{inset:0;background:#a3242a;border-radius:6px}
+.pc{left:7%;right:7%;top:6%;bottom:6%;background:#fff3e6;border-radius:4px;z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:12%;color:#9b1c1f;font:italic 15px "Playfair Display",Georgia,serif;transition:transform 1s cubic-bezier(.3,.7,.2,1) .55s}
+.pc b{display:block;max-width:100%;margin-top:4px;font:500 26px "Dancing Script",cursive;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pk{inset:0;z-index:3;border-radius:6px}
+.pk.l{background:#b32c32;clip-path:polygon(0 0,52% 52%,0 100%)}
+.pk.r{background:#b32c32;clip-path:polygon(100% 0,48% 52%,100% 100%)}
+.pk.b{background:#972025;clip-path:polygon(0 100%,50% 44%,100% 100%)}
+.to{left:0;right:0;bottom:7%;text-align:center;z-index:4;color:var(--gold);pointer-events:none}
+.to small{display:block;font:italic 12px "Playfair Display",Georgia,serif;letter-spacing:.14em;text-transform:uppercase;margin-bottom:2px}
+.gname:empty::before{content:"· · · · · · · ·";letter-spacing:.2em}
+.gn.gname:empty::before{content:"\00a0"}
+.to input{display:block;width:74%;margin:0 auto;padding:2px 4px;background:transparent;border:0;border-bottom:2px dotted var(--gold);border-radius:0;text-align:center;color:var(--gold);font:500 24px "Dancing Script","Brush Script MT",cursive;pointer-events:auto;outline:none}
+.to input::placeholder{color:#ecd08a99;font:italic 13px "Be Vietnam Pro",system-ui,sans-serif}
+.to input:focus{border-bottom-color:#fff}
+.ev{transition:transform .35s ease}
+.env.typing .ev{transform:translateY(-18vh)}
+.env.typing .hint{opacity:0}
+.flap{inset:0;z-index:4;background:#8c1c20;clip-path:polygon(0 0,100% 0,50% 58%);transform-origin:top;transition:transform .8s ease,z-index 0s .4s}
+.seal{left:50%;top:57%;transform:translate(-50%,-50%);z-index:6;width:68px;height:68px;border-radius:50%;border:0;cursor:pointer;background:radial-gradient(circle at 35% 30%,#f6e29c,#c9a23d 60%,#977520);box-shadow:0 4px 10px #0007,inset 0 -3px 6px #0004;color:#7a1214;font-size:28px;display:grid;place-items:center;transition:transform .4s,opacity .4s}
+.seal::before{content:"";position:absolute;inset:7px;border:1.5px solid #7a121466;border-radius:50%}
+.seal::after{content:"";position:absolute;inset:-6px;border-radius:50%;border:2px solid var(--gold);animation:ping 1.8s ease-out infinite}
+.hint{margin:0;color:var(--gold);font:italic 15px "Playfair Display",Georgia,serif;animation:breathe 2.4s ease-in-out infinite;transition:opacity .4s}
+.env.open .flap{transform:rotateX(180deg);z-index:1}
+.env.open .pc{transform:translateY(-72%)}
+.env.open .seal{transform:translate(-50%,-50%) scale(.2);opacity:0;pointer-events:none}
+.env.open .hint{opacity:0}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+@keyframes up{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:none}}
+@keyframes fall{from{transform:translate3d(0,0,0) rotate(-12deg)}to{transform:translate3d(var(--dx,40px),110vh,0) rotate(18deg)}}
+@keyframes kb{from{transform:scale(1)}to{transform:scale(1.08)}}
+@keyframes ping{from{transform:scale(.9);opacity:.9}to{transform:scale(1.55);opacity:0}}
+@keyframes breathe{0%,100%{opacity:.45}50%{opacity:1}}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}.hearts{display:none}}
+</style>
+</head>
+<body class="locked">
+<div class="lang" id="lang" role="group" aria-label="Language"><button type="button" data-l="vi">VI</button><button type="button" data-l="en">EN</button></div>
+
+<div class="hearts" id="hearts"></div>
+
+<!-- PHONG THƯ -->
+<div class="env" id="env">
+  <div class="ev">
+    <div class="eb"></div>
+    <div class="pc"><span>Trân trọng kính mời</span><b class="gname"></b></div>
+    <div class="pk l"></div><div class="pk r"></div><div class="pk b"></div>
+    <div class="to"><small>Trân trọng kính mời</small><input id="envGuest" maxlength="50" placeholder="Nhập tên khách mời" aria-label="Tên khách mời" autocomplete="off"></div>
+    <div class="flap"></div>
+    <button class="seal" id="seal" type="button" aria-label="Mở thiệp">♥</button>
+  </div>
+  <p class="hint">Chạm vào con dấu để mở thiệp</p>
+</div>
+
+<!-- TRANG THIỆP MỜI -->
+<div class="view on" id="v-home">
+  <section class="rv">
+    <div class="par">
+      <div><small>NHÀ TRAI</small>Ông: <b data-i="groomFather">[Tên cha chú rể]</b><br>Bà: <b data-i="groomMother">[Tên mẹ chú rể]</b><span data-i="groomAddress">[Địa chỉ]</span></div>
+      <div><small>NHÀ GÁI</small>Ông: <b data-i="brideFather">[Tên cha cô dâu]</b><br>Bà: <b data-i="brideMother">[Tên mẹ cô dâu]</b><span data-i="brideAddress">[Địa chỉ]</span></div>
+    </div>
+  </section>
+
+  <section class="rv pf">
+    <div class="u">Trân trọng báo tin</div>
+    <div class="big">LỄ THÀNH HÔN</div>
+    <div class="u">của con chúng tôi</div>
+    <div class="names">
+      <div class="sc" data-i="groom">[Tên chú rể]</div>
+      <div><small>Quý nam</small><span class="heart">♥</span><small>Quý nữ</small></div>
+      <div class="sc" data-i="bride">[Tên cô dâu]</div>
+    </div>
+    <div class="u">Hôn lễ được cử hành tại <b data-i="ceremonyPlace">[Tư gia]</b></div>
+    <div class="u" style="margin:10px 0 4px">Vào lúc:</div>
+    <div class="pill" data-i="ceremonyTime">[Giờ] giờ [Phút]</div>
+    <div class="big" style="font-size:24px" data-i="ceremonyDate">* [DD]. [MM]. [YYYY] *</div>
+    <div class="u" style="font-size:13px" data-i="ceremonyLunar">Nhằm ngày [..] tháng [..] năm [..]</div>
+  </section>
+
+  <section class="rv pf">
+    <div class="big" style="font-size:19px">TRÂN TRỌNG KÍNH MỜI:</div>
+    <div class="gn gname" id="guest" aria-label="Tên khách mời"></div>
+    <div class="u">Đến dự buổi tiệc chung vui<br>cùng gia đình chúng tôi tại</div>
+    <div class="sc venue" data-i="venue">[Tên nơi tổ chức]</div>
+    <div class="u" style="font-size:14px" data-i="venueAddress">[Địa chỉ nơi tổ chức]</div>
+    <div class="dt">
+      <div><b data-i="pDay">[DD]</b><span data-i="pMonth">THÁNG [MM]</span></div>
+      <div>VÀO LÚC<b data-i="partyTime">[Giờ]</b></div>
+      <div><b data-i="pYear">[Năm]</b></div>
+    </div>
+    <div class="u" style="font-size:13px" data-i="partyLunar">(Nhằm ngày [..] tháng [..] năm [..])</div>
+    <p class="u" style="font-size:14px;margin:16px 0 4px">Sự hiện diện của quý khách<br>là niềm vinh hạnh cho gia đình chúng tôi</p>
+    <div class="big" style="font-size:18px;margin-top:14px">KÍNH MỜI!</div>
+    <a class="btn ghost" id="map" href="#" target="_blank" rel="noopener" style="margin-top:8px">Xem bản đồ</a>
+  </section>
+
+  <section class="rv" id="photos">
+    <h2 class="sc" style="font-size:34px">Ảnh cưới</h2>
+    <p class="msg">Những khoảnh khắc của chúng mình</p>
+    <div class="show" id="show" data-dyn>
+      <button class="nav-a" id="prev" style="left:10px" aria-label="Ảnh trước">‹</button>
+      <button class="nav-a" id="next" style="right:10px" aria-label="Ảnh sau">›</button>
+    </div>
+    <div class="dots" id="dots"></div>
+  </section>
+
+  <section class="rv" id="wishes">
+    <h2>Lời chúc</h2>
+    <p class="msg">Gửi một lời chúc đến cô dâu chú rể nhé</p>
+    <input id="wname" maxlength="40" placeholder="Họ và tên" autocomplete="name">
+    <textarea id="wish" maxlength="300" placeholder="Lời chúc gửi đến cô dâu chú rể"></textarea>
+    <button type="button" class="btn" id="wsend">Gửi lời chúc</button>
+    <p class="note" id="wnote" data-dyn role="status"></p>
+    <div class="bwrap" id="bwrap"><div class="board" id="board" data-dyn></div></div>
+    <p class="cnt" id="whint" data-dyn></p>
+    <p class="cnt" id="wstat" data-dyn></p>
+    <p class="msg" id="demo" hidden style="font-size:12px;margin-top:10px">(Đây là lời chúc mẫu, sẽ được thay bằng lời chúc thật khi kết nối Google Sheet)</p>
+  </section>
+
+  <section class="rv" id="gift" style="padding-top:8px">
+    <h2>Mừng cưới</h2>
+    <p class="msg">Một chút quà nhỏ gửi đến cô dâu chú rể, nếu bạn muốn</p>
+    <button type="button" class="gbox" id="gbox" aria-expanded="false" aria-controls="gbank">
+      <span class="lid"><i class="bow"></i></span><span class="gb"></span>
+      <span class="gt" id="gt" data-dyn>Chạm để mở hộp quà</span>
+    </button>
+    
+  </section>
+
+  <section class="rv" id="share">
+    <h2>Chia sẻ khoảnh khắc</h2>
+    <p class="msg">Bạn chụp được tấm nào đẹp thì thêm vào đây để mọi người cùng xem nhé</p>
+    <input type="file" id="pfile" accept="image/*" multiple hidden>
+    <button type="button" class="btn" id="padd">Thêm ảnh của bạn</button>
+    <p class="note" id="pnote" data-dyn role="status"></p>
+    <div class="pgrid" id="pgrid" data-dyn></div>
+    <div class="qrwrap"><div id="dqr"></div><div class="cnt">Quét mã QR để mở thẳng phần này trên điện thoại</div></div>
+  </section>
+  <footer>Cảm ơn bạn rất nhiều ♥</footer>
+</div>
+
+<div class="modal" id="gbank" hidden role="dialog" aria-modal="true" aria-label="Thông tin mừng cưới"><div class="card mbox"><button type="button" class="x" id="gclose" aria-label="Đóng">×</button>
+      <b id="bank">[Ngân hàng]</b>
+      <span id="holder" style="color:var(--muted)">[Tên chủ tài khoản]</span>
+      <div class="acc" id="acc">[Số tài khoản]</div>
+      <button type="button" class="btn ghost" id="copy">Sao chép số tài khoản</button>
+      <div><div id="bqr" class="empty">Mã QR sẽ hiện ra khi điền số tài khoản</div></div>
+      <div style="font-size:13px;color:var(--muted)">Quét bằng ứng dụng ngân hàng</div>
+      <p class="note" id="cnote" data-dyn role="status" style="margin-top:8px"></p>
+    </div></div>
+
+<div class="modal" id="lb" hidden role="dialog" aria-modal="true" aria-label="Xem ảnh"><img class="lbimg" id="lbimg" alt=""><button type="button" class="x" id="lbx" aria-label="Đóng">×</button></div>
+
+<nav class="tabs">
+  <button type="button" data-v="home" class="on">Thiệp mời</button>
+  <button type="button" data-v="photos">Ảnh cưới</button>
+  <button type="button" data-v="wishes">Lời chúc</button>
+  <button type="button" data-v="gift">Mừng cưới</button>
+</nav>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+// ===== Chỉnh ở đây =====
+const CFG = {
+  photos: [],        // ảnh cưới (tối đa 15). Nếu đã điền apiUrl thì ảnh tự lấy từ thư mục Drive "Ảnh cưới"
+  phone: "",         // số điện thoại nhận tin nhắn lời chúc (chỉ dùng khi chưa có apiUrl)
+  mapQuery: "",      // địa chỉ để mở Google Maps
+  bank: "",          // tên ngân hàng, ví dụ: Vietcombank
+  bankBin: "",       // mã BIN ngân hàng (để trống nếu là ngân hàng phổ biến)
+  account: "",       // số tài khoản
+  holder: "",        // tên chủ tài khoản
+  apiUrl: ""         // link Google Apps Script (kết thúc bằng /exec): lưu lời chúc, ảnh khách tải lên và lấy ảnh cưới từ Drive
+};
+// ===== THÔNG TIN THIỆP: điền vào giữa hai dấu "" (để trống thì thiệp hiện chỗ trống [..]) =====
+// Mục nào cần khác nhau giữa tiếng Việt và tiếng Anh thì viết dạng { vi: "...", en: "..." }
+const INFO = {
+  groom: "",             // tên chú rể
+  bride: "",             // tên cô dâu
+  groomFather: "",       // tên cha chú rể
+  groomMother: "",       // tên mẹ chú rể
+  groomAddress: "",      // địa chỉ nhà trai, ví dụ: Tp. Hồ Chí Minh
+  brideFather: "",       // tên cha cô dâu
+  brideMother: "",       // tên mẹ cô dâu
+  brideAddress: "",      // địa chỉ nhà gái
+  ceremonyPlace: "",     // nơi cử hành hôn lễ, ví dụ: { vi: "Tư gia", en: "the family home" }
+  ceremonyTime: "",      // giờ làm lễ, ví dụ: "09:00"
+  ceremonyDate: "",      // ngày làm lễ, ví dụ: "24/08/2030"
+  ceremonyLunar: "",     // ngày âm lịch của lễ, ví dụ: "10 tháng 07 năm Canh Tuất"
+  venue: "",             // tên nơi tổ chức tiệc, ví dụ: Diamond Palace
+  venueAddress: "",      // địa chỉ nơi tổ chức tiệc
+  partyDate: "",         // ngày tổ chức tiệc, ví dụ: "24/08/2030"
+  partyTime: "",         // giờ tiệc, ví dụ: "10:30"
+  partyLunar: ""         // ngày âm lịch của tiệc
+};
+// ========================
+const $ = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
+const API = CFG.apiUrl;
+/* ngôn ngữ: ưu tiên link ?lang=en, rồi lựa chọn đã lưu, mặc định tiếng Việt */
+let lang = "vi";
+try { const q = new URLSearchParams(location.search).get("lang"); lang = q === "en" || q === "vi" ? q : (localStorage.getItem("lang") || "vi"); } catch (e) {}
+const MSG = {
+  vi: { title: "Thiệp cưới", noWish: "Chưa có lời chúc nào, bạn hãy là người đầu tiên nhé", swipe: "Kéo lên để xem thêm lời chúc ↑", loadErr: "Chưa tải được lời chúc mới", needBoth: "Bạn nhập tên và lời chúc giúp chúng mình nhé.", thanksWish: "Cảm ơn bạn! Lời chúc của bạn đã hiện ở bảng bên dưới ♥", sendFail: "Chưa gửi được lời chúc, bạn thử lại sau nhé.", smsFrom: "Lời chúc từ ", noPhoto: "Chưa có ảnh nào, bạn hãy là người đầu tiên nhé", photoDemo: "Ảnh khách chia sẻ sẽ hiện ở đây khi kết nối Google Sheet", photoAlt: "Ảnh khách chia sẻ", needApi: "Chức năng này sẽ hoạt động khi kết nối Google Sheet.", guest: "Khách", uploading: "Đang tải ảnh ", badA: "Có ", badB: " ảnh chưa tải được, bạn thử lại nhé.", thanksPhoto: "Cảm ơn bạn! Ảnh đã được thêm ♥", giftOpen: "Chạm để mở hộp quà", giftClose: "Chạm để đóng hộp quà", copied: "Đã sao chép số tài khoản", copyHint: "Bạn giữ số tài khoản để sao chép nhé.", wedPhoto: "Ảnh cưới" },
+  en: { title: "Wedding invitation", noWish: "No wishes yet. Be the first to leave one!", swipe: "Swipe up to see more wishes ↑", loadErr: "Couldn’t load the latest wishes", needBoth: "Please enter your name and your wishes.", thanksWish: "Thank you! Your wish now appears on the board below ♥", sendFail: "Couldn’t send your wish. Please try again later.", smsFrom: "Wish from ", noPhoto: "No photos yet. Be the first to add one!", photoDemo: "Photos shared by guests will appear here once connected to Google Sheets", photoAlt: "Photo shared by a guest", needApi: "This feature will work once connected to Google Sheets.", guest: "Guest", uploading: "Uploading photo ", badA: "", badB: " photo(s) failed to upload. Please try again.", thanksPhoto: "Thank you! Your photos have been added ♥", giftOpen: "Tap to open the gift box", giftClose: "Tap to close the gift box", copied: "Account number copied", copyHint: "Please hold the account number to copy it.", wedPhoto: "Wedding photo" }
+};
+const t = k => MSG[lang][k];
+
+
+/* trái tim rơi */
+for (let i = 0; i < 18; i++) {
+  const s = document.createElement("span"); s.textContent = "♥";
+  s.style.cssText = `left:${Math.random() * 100}%;font-size:${10 + Math.random() * 12}px;opacity:${.35 + Math.random() * .4};--dx:${Math.random() * 100 - 50}px;animation-duration:${7 + Math.random() * 7}s;animation-delay:-${Math.random() * 12}s`;
+  $("#hearts").appendChild(s);
+}
+
+/* hiện dần khi cuộn (chỉ bắt đầu sau khi mở thư) */
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold: .12 });
+const watch = () => $$(".rv").forEach(e => io.observe(e));
+
+/* mở phong thư */
+function reveal() {
+  document.body.classList.remove("locked");
+  $("#v-home").classList.add("enter");
+  watch();
+}
+$("#seal").onclick = () => {
+  $("#env").classList.add("open");
+  setTimeout(() => { $("#env").classList.add("done"); reveal(); }, 2000);
+  setTimeout(() => $("#env").remove(), 2900);
+};
+
+/* điều hướng */
+function go(v) {
+  const anchor = { gift: "#gift", wishes: "#wishes", photos: "#photos", share: "#share" }[v];
+  $("#v-home").classList.toggle("on", v === "home" || !!anchor);
+  $$(".tabs button").forEach(b => b.classList.toggle("on", b.dataset.v === v));
+  setTimeout(edge, 50);
+  if (anchor) setTimeout(() => $(anchor).scrollIntoView({ behavior: "smooth" }), 60);
+  else window.scrollTo(0, 0);
+  try { history.replaceState(null, "", "#" + v); } catch (e) {}
+}
+$$(".tabs button").forEach(b => b.onclick = () => go(b.dataset.v));
+try {
+  const h = location.hash.slice(1);
+  if (["photos", "wishes", "gift", "share"].includes(h)) { $("#env").remove(); document.body.classList.remove("locked"); watch(); go(h); }
+} catch (e) {}
+
+/* bản đồ */
+if (CFG.mapQuery) $("#map").href = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(CFG.mapQuery);
+else $("#map").style.display = "none";
+
+/* ảnh cưới: slide tối đa 15 ảnh (lấy từ thư mục Drive nếu đã kết nối, không thì dùng CFG.photos) */
+let cur = 0, slides = [], dts = [], N = 0, slideKey = "";
+function setSlides(urls) {
+  slides.forEach(x => x.remove()); dts.forEach(x => x.remove()); slides = []; dts = [];
+  N = urls.length ? Math.min(urls.length, 15) : 15;
+  for (let i = 0; i < N; i++) {
+    const d = document.createElement("div"); d.className = "slide";
+    if (urls.length) d.style.backgroundImage = 'url("' + urls[i] + '")';
+    else { d.classList.add("ph"); d.innerHTML = t("wedPhoto") + "<br>" + (i + 1); }
+    $("#show").insertBefore(d, $("#prev")); slides.push(d);
+    const dot = document.createElement("i"); $("#dots").appendChild(dot); dts.push(dot);
+  }
+  set(0);
+}
+function set(i) {
+  cur = (i + N) % N;
+  slides.forEach((s, k) => s.classList.toggle("on", k === cur));
+  dts.forEach((t, k) => t.classList.toggle("on", k === cur));
+}
+setSlides(CFG.photos);
+$("#prev").onclick = () => set(cur - 1);
+$("#next").onclick = () => set(cur + 1);
+setInterval(() => { if (N) set(cur + 1); }, 4500);
+let x0 = null;
+$("#show").addEventListener("touchstart", e => x0 = e.touches[0].clientX, { passive: true });
+$("#show").addEventListener("touchend", e => { if (x0 !== null) { const dx = e.changedTouches[0].clientX - x0; if (Math.abs(dx) > 40) set(cur + (dx < 0 ? 1 : -1)); x0 = null; } });
+
+/* lời chúc: bảng 5 lời chúc mới nhất */
+const SAMPLE = {
+  vi: [{ name: "Minh Anh", wish: "Chúc hai bạn trăm năm hạnh phúc!" }, { name: "Bạn thân", wish: "Mãi bên nhau, cùng nhau già đi nhé!" }, { name: "Cô Hạnh", wish: "Chúc hai con luôn yêu thương và thấu hiểu nhau." }, { name: "Anh Tuấn", wish: "Chúc mừng hạnh phúc, sớm có tin vui nhé!" }, { name: "Lan", wish: "Hạnh phúc ngọt ngào bên nhau mỗi ngày." }],
+  en: [{ name: "Minh Anh", wish: "Wishing you a lifetime of happiness!" }, { name: "Best friend", wish: "Forever together, growing old side by side!" }, { name: "Aunt Hanh", wish: "May you always love and understand each other." }, { name: "Tuan", wish: "Congratulations, and may good news come soon!" }, { name: "Lan", wish: "Sweet happiness together every single day." }]
+};
+let server = [], pending = [], loadErr = false, gPhotos = [], gPending = [];
+const img = (id, w) => "https://lh3.googleusercontent.com/d/" + id + "=w" + w;
+const wkey = w => w.name + "|" + w.wish;
+const allW = () => [...server, ...pending.filter(p => !server.some(s => wkey(s) === wkey(p)))].reverse(); // mới → cũ
+function render(newKey) {
+  const list = allW(), box = $("#board");
+  box.textContent = "";
+  if (!list.length) { const e = document.createElement("p"); e.className = "msg"; e.textContent = t("noWish"); box.appendChild(e); }
+  list.forEach(w => {
+    const d = document.createElement("div"), n = document.createElement("div"), t = document.createElement("p");
+    d.className = "wi" + (wkey(w) === newKey ? " new" : ""); n.className = "sc"; n.textContent = w.name; t.textContent = w.wish;
+    d.append(n, t); box.appendChild(d);
+  });
+  $("#whint").textContent = list.length > 5 ? t("swipe") : "";
+  edge();
+  $("#wstat").textContent = loadErr ? t("loadErr") : "";
+}
+async function loadAll() {
+  if (!API) { server = SAMPLE[lang]; $("#demo").hidden = false; render(); renderPhotos(); return; }
+  try {
+    const r = await fetch(API + (API.includes("?") ? "&" : "?") + "t=" + Date.now()), d = await r.json();
+    const ws = Array.isArray(d) ? d : d.wishes;
+    if (Array.isArray(ws)) server = ws.map(w => ({ name: String(w.name), wish: String(w.wish) }));
+    if (d && Array.isArray(d.photos)) { gPhotos = d.photos; gPending = gPending.filter(p => !p.done); }
+    if (d && Array.isArray(d.slides) && d.slides.length) {
+      const u = d.slides.map(x => img(x.id, 1200)), k = u.join();
+      if (k !== slideKey) { slideKey = k; setSlides(u); }
+    }
+    loadErr = false;
+  } catch (e) { loadErr = true; }
+  render(); renderPhotos();
+}
+const edge = () => { const b = $("#board"); $("#bwrap").classList.toggle("end", b.scrollTop + b.clientHeight >= b.scrollHeight - 6); };
+$("#board").addEventListener("scroll", edge, { passive: true });
+$("#wsend").onclick = async () => {
+  const name = $("#wname").value.trim(), wish = $("#wish").value.trim(), note = $("#wnote"), btn = $("#wsend");
+  if (!name || !wish) { note.textContent = t("needBoth"); return; }
+  const w = { name, wish }; pending.push(w);
+  $("#wish").value = ""; btn.disabled = true; setTimeout(() => btn.disabled = false, 4000);
+  note.textContent = t("thanksWish");
+  render(wkey(w)); $("#board").scrollTop = 0;
+  if (API) {
+    try { await fetch(API, { method: "POST", mode: "no-cors", headers: { "Content-Type": "text/plain" }, body: JSON.stringify({ type: "wish", name, wish }) }); setTimeout(loadAll, 3000); }
+    catch (e) { note.textContent = t("sendFail"); }
+  } else if (CFG.phone) location.href = "sms:" + CFG.phone + "?&body=" + encodeURIComponent(t("smsFrom") + name + ": " + wish);
+};
+setInterval(() => { if (!document.hidden) loadAll(); }, 45000);
+loadAll();
+
+/* tên khách mời: điền ở phong thư bên ngoài, trong thiệp tự đổi theo (cũng có thể điền sẵn bằng link ...?to=Tên) */
+let guestName = "", wTouched = false;
+try { guestName = (new URLSearchParams(location.search).get("to") || "").trim().slice(0, 50); } catch (e) {}
+const envIn = $("#envGuest");
+if (envIn) envIn.value = guestName;
+function syncName() {
+  $$(".gname").forEach(e => e.textContent = guestName);
+  if (!wTouched) $("#wname").value = guestName.slice(0, 40);
+}
+$("#wname").addEventListener("input", () => wTouched = true);
+if (envIn) {
+  envIn.addEventListener("input", () => { guestName = envIn.value.trim().slice(0, 50); syncName(); });
+  envIn.addEventListener("keydown", e => { if (e.key === "Enter") envIn.blur(); });
+  envIn.addEventListener("focus", () => $("#env").classList.add("typing"));
+  envIn.addEventListener("blur", () => $("#env").classList.remove("typing"));
+}
+syncName();
+
+/* hộp quà mừng cưới: bấm để mở pop-up */
+const gm = $("#gbank"), gbx = $("#gbox");
+let gTimer;
+function gOpen(o) {
+  clearTimeout(gTimer);
+  gbx.classList.toggle("open", o); gbx.setAttribute("aria-expanded", o);
+  if (o) gTimer = setTimeout(() => { gm.hidden = false; document.body.style.overflow = "hidden"; }, 500);
+  else { gm.hidden = true; document.body.style.overflow = ""; }
+  $("#gt").textContent = o ? t("giftClose") : t("giftOpen");
+}
+gbx.onclick = () => gOpen(!gbx.classList.contains("open"));
+$("#gclose").onclick = () => gOpen(false);
+gm.onclick = e => { if (e.target === gm) gOpen(false); };
+document.addEventListener("keydown", e => { if (e.key === "Escape") gOpen(false); });
+
+/* mừng cưới: thông tin ngân hàng + mã VietQR */
+const BINS = { vietcombank: "970436", vcb: "970436", techcombank: "970407", mb: "970422", mbbank: "970422", vietinbank: "970415", bidv: "970418", agribank: "970405", acb: "970416", tpbank: "970423", vpbank: "970432", sacombank: "970403" };
+const tlv = (id, v) => id + String(v.length).padStart(2, "0") + v;
+function crc16(s) { let c = 0xFFFF; for (let i = 0; i < s.length; i++) { c ^= s.charCodeAt(i) << 8; for (let j = 0; j < 8; j++) c = c & 0x8000 ? ((c << 1) ^ 0x1021) & 0xFFFF : (c << 1) & 0xFFFF; } return c.toString(16).toUpperCase().padStart(4, "0"); }
+function vietqr(bin, acc, note) {
+  const mai = tlv("00", "A000000727") + tlv("01", tlv("00", bin) + tlv("01", acc)) + tlv("02", "QRIBFTTA");
+  let p = tlv("00", "01") + tlv("01", "11") + tlv("38", mai) + tlv("53", "704") + tlv("58", "VN");
+  if (note) p += tlv("62", tlv("08", note));
+  p += "6304"; return p + crc16(p);
+}
+if (CFG.bank) $("#bank").textContent = CFG.bank;
+if (CFG.holder) $("#holder").textContent = CFG.holder;
+const acc = CFG.account.replace(/\s/g, ""), bin = CFG.bankBin || BINS[CFG.bank.toLowerCase().replace(/\s/g, "")];
+if (acc) {
+  $("#acc").textContent = CFG.account;
+  if (bin) {
+    try { const q = $("#bqr"); q.className = ""; q.textContent = ""; new QRCode(q, { text: vietqr(bin, acc, "Mung cuoi"), width: 180, height: 180, colorDark: "#000000", colorLight: "#ffffff", correctLevel: QRCode.CorrectLevel.M }); } catch (e) {}
+  }
+}
+/* ảnh khách chia sẻ: hiển thị, tải lên, xem lớn */
+function renderPhotos() {
+  const g = $("#pgrid"); g.textContent = "";
+  const items = [...gPending.map(p => ({ s: p.src, f: p.src })), ...gPhotos.map(p => ({ s: img(p.id, 400), f: img(p.id, 1600) }))];
+  items.forEach(it => {
+    const i = document.createElement("img"); i.src = it.s; i.loading = "lazy"; i.alt = t("photoAlt");
+    i.onclick = () => { $("#lbimg").src = it.f; $("#lb").hidden = false; document.body.style.overflow = "hidden"; };
+    g.appendChild(i);
+  });
+  if (!items.length) {
+    const e = document.createElement("p"); e.className = "msg"; e.style.gridColumn = "1/-1";
+    e.textContent = API ? t("noPhoto") : t("photoDemo");
+    g.appendChild(e);
+  }
+}
+const resize = file => new Promise((ok, no) => {
+  const u = URL.createObjectURL(file), im = new Image();
+  im.onload = () => {
+    const k = Math.min(1, 1600 / Math.max(im.width, im.height)), c = document.createElement("canvas");
+    c.width = Math.round(im.width * k); c.height = Math.round(im.height * k);
+    c.getContext("2d").drawImage(im, 0, 0, c.width, c.height); URL.revokeObjectURL(u); ok(c.toDataURL("image/jpeg", .82));
+  };
+  im.onerror = () => { URL.revokeObjectURL(u); no(new Error("img")); };
+  im.src = u;
+});
+$("#padd").onclick = () => $("#pfile").click();
+$("#pfile").onchange = async () => {
+  const files = [...$("#pfile").files].slice(0, 6), note = $("#pnote");
+  $("#pfile").value = "";
+  if (!files.length) return;
+  if (!API) { note.textContent = t("needApi"); return; }
+  const name = (guestName || $("#wname").value.trim() || t("guest")).slice(0, 60);
+  $("#padd").disabled = true; let okN = 0, bad = 0;
+  for (let i = 0; i < files.length; i++) {
+    note.textContent = t("uploading") + (i + 1) + "/" + files.length + "…";
+    let p;
+    try {
+      const data = await resize(files[i]);
+      p = { src: data, done: false }; gPending.unshift(p); renderPhotos();
+      await fetch(API, { method: "POST", mode: "no-cors", headers: { "Content-Type": "text/plain" }, body: JSON.stringify({ type: "photo", name, data }) });
+      p.done = true; okN++;
+    } catch (e) { bad++; if (p) { gPending = gPending.filter(x => x !== p); renderPhotos(); } }
+  }
+  $("#padd").disabled = false;
+  note.textContent = bad ? t("badA") + bad + t("badB") : t("thanksPhoto");
+  if (okN) setTimeout(loadAll, 3000);
+};
+$("#lb").onclick = () => { $("#lb").hidden = true; document.body.style.overflow = ""; };
+document.addEventListener("keydown", e => { if (e.key === "Escape") $("#lb").click(); });
+
+/* mã QR mở thẳng phần chia sẻ ảnh của trang này */
+try { if (location.protocol.startsWith("http")) new QRCode($("#dqr"), { text: location.origin + location.pathname + "#share", width: 150, height: 150, colorDark: "#000000", colorLight: "#ffffff", correctLevel: QRCode.CorrectLevel.M }); } catch (e) {}
+$("#copy").onclick = async () => {
+  try { await navigator.clipboard.writeText(acc || ""); $("#cnote").textContent = acc ? t("copied") : ""; }
+  catch (e) { $("#cnote").textContent = t("copyHint"); }
+};
+
+/* ===== bản dịch tiếng Anh cho phần chữ cố định của thiệp ===== */
+const EN = {
+  "Trân trọng kính mời": "Cordially invited", "Nhập tên khách mời": "Enter guest’s name", "Tên khách mời": "Guest’s name", "Mở thiệp": "Open invitation",
+  "Chạm vào con dấu để mở thiệp": "Tap the seal to open",
+  "NHÀ TRAI": "GROOM’S FAMILY", "NHÀ GÁI": "BRIDE’S FAMILY", "Ông:": "Mr.", "Bà:": "Mrs.",
+  "[Tên cha chú rể]": "[Groom’s father]", "[Tên mẹ chú rể]": "[Groom’s mother]", "[Tên cha cô dâu]": "[Bride’s father]", "[Tên mẹ cô dâu]": "[Bride’s mother]", "[Địa chỉ]": "[Address]",
+  "Trân trọng báo tin": "With great joy, we announce", "LỄ THÀNH HÔN": "THE WEDDING CEREMONY", "của con chúng tôi": "of our children",
+  "[Tên chú rể]": "[Groom’s name]", "[Tên cô dâu]": "[Bride’s name]", "Quý nam": "Son", "Quý nữ": "Daughter",
+  "Hôn lễ được cử hành tại": "The ceremony will be held at", "[Tư gia]": "[Venue]", "Vào lúc:": "At:", "[Giờ] giờ [Phút]": "[Time]",
+  "* [DD]. [MM]. [YYYY] *": "* [Date] *", "Nhằm ngày [..] tháng [..] năm [..]": "Lunar date: [..]",
+  "TRÂN TRỌNG KÍNH MỜI:": "CORDIALLY INVITED:", "Đến dự buổi tiệc chung vui": "to join our wedding celebration", "cùng gia đình chúng tôi tại": "with our families at",
+  "[Tên nơi tổ chức]": "[Venue name]", "[Địa chỉ nơi tổ chức]": "[Venue address]", "THÁNG [MM]": "[MONTH]", "VÀO LÚC": "AT", "[Giờ]": "[Time]", "[Năm]": "[Year]",
+  "(Nhằm ngày [..] tháng [..] năm [..])": "(Lunar date: [..])",
+  "Sự hiện diện của quý khách": "Your presence", "là niềm vinh hạnh cho gia đình chúng tôi": "is an honor to our families", "KÍNH MỜI!": "PLEASE JOIN US!", "Xem bản đồ": "View map",
+  "Ảnh cưới": "Photos", "Những khoảnh khắc của chúng mình": "Moments we’d love to share with you", "Ảnh trước": "Previous photo", "Ảnh sau": "Next photo",
+  "Lời chúc": "Wishes", "Gửi một lời chúc đến cô dâu chú rể nhé": "Leave a wish for the bride and groom", "Họ và tên": "Your name",
+  "Lời chúc gửi đến cô dâu chú rể": "Your wishes for the bride and groom", "Gửi lời chúc": "Send wishes",
+  "(Đây là lời chúc mẫu, sẽ được thay bằng lời chúc thật khi kết nối Google Sheet)": "(These are sample wishes. They will be replaced by real ones once connected to Google Sheets)",
+  "Mừng cưới": "Gift", "Một chút quà nhỏ gửi đến cô dâu chú rể, nếu bạn muốn": "A small gift for the couple, if you wish",
+  "Chia sẻ khoảnh khắc": "Share the moments", "Bạn chụp được tấm nào đẹp thì thêm vào đây để mọi người cùng xem nhé": "Add the lovely photos you take so everyone can enjoy them",
+  "Thêm ảnh của bạn": "Add your photos", "Quét mã QR để mở thẳng phần này trên điện thoại": "Scan the QR code to open this section on your phone",
+  "Cảm ơn bạn rất nhiều ♥": "Thank you so much ♥", "Thông tin mừng cưới": "Gift information", "Đóng": "Close", "Xem ảnh": "View photo",
+  "[Ngân hàng]": "[Bank]", "[Tên chủ tài khoản]": "[Account holder]", "[Số tài khoản]": "[Account number]", "Sao chép số tài khoản": "Copy account number",
+  "Mã QR sẽ hiện ra khi điền số tài khoản": "The QR code will appear once the account number is filled in", "Quét bằng ứng dụng ngân hàng": "Scan with your banking app",
+  "Thiệp mời": "Invitation"
+};
+const MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+const pick = v => v && typeof v === "object" ? (v[lang] || v.vi || v.en || "") : (v || "");
+const dmy = v => { const m = /(\d{1,2})\D+(\d{1,2})\D+(\d{4})/.exec(v || ""); return m ? [m[1].padStart(2, "0"), m[2].padStart(2, "0"), m[3]] : null; };
+function infoText(k) {
+  switch (k) {
+    case "ceremonyTime": { const v = pick(INFO.ceremonyTime), m = /^(\d{1,2})\s*[:h]\s*(\d{2})$/.exec(v); return v && lang === "vi" && m ? m[1].padStart(2, "0") + " giờ " + m[2] : v; }
+    case "ceremonyDate": { const d = dmy(INFO.ceremonyDate); return d ? "* " + (lang === "vi" ? d[0] + ". " + d[1] + ". " + d[2] : MONTHS[+d[1] - 1] + " " + (+d[0]) + ", " + d[2]) + " *" : ""; }
+    case "ceremonyLunar": case "partyLunar": { const v = pick(INFO[k]); if (!v) return ""; const x = (lang === "vi" ? "Nhằm ngày " : "Lunar date: ") + v; return k === "partyLunar" ? "(" + x + ")" : x; }
+    case "pDay": { const d = dmy(INFO.partyDate); return d ? d[0] : ""; }
+    case "pMonth": { const d = dmy(INFO.partyDate); return d ? (lang === "vi" ? "THÁNG " + d[1] : MONTHS[+d[1] - 1].slice(0, 3).toUpperCase()) : ""; }
+    case "pYear": { const d = dmy(INFO.partyDate); return d ? d[2] : ""; }
+    default: return pick(INFO[k]);
+  }
+}
+function applyLang(l) {
+  lang = l;
+  document.documentElement.lang = l;
+  /* chữ cố định */
+  const w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT), nodes = [];
+  while (w.nextNode()) nodes.push(w.currentNode);
+  nodes.forEach(n => {
+    const el = n.parentElement;
+    if (!el || el.closest("script,style,[data-i],[data-dyn],.gname")) return;
+    if (n.__vi === undefined) n.__vi = n.nodeValue;
+    const tr = n.__vi.trim();
+    if (!tr) return;
+    const out = l === "en" && EN[tr] ? EN[tr] : tr;
+    n.nodeValue = n.__vi.replace(tr, () => out);
+  });
+  /* placeholder, aria-label */
+  $$("[placeholder],[aria-label]").forEach(el => {
+    el.__a = el.__a || {};
+    ["placeholder", "aria-label"].forEach(a => {
+      if (!el.hasAttribute(a)) return;
+      if (el.__a[a] === undefined) el.__a[a] = el.getAttribute(a);
+      el.setAttribute(a, l === "en" && EN[el.__a[a]] ? EN[el.__a[a]] : el.__a[a]);
+    });
+  });
+  /* thông tin điền ở INFO (hoặc chỗ trống [..] nếu chưa điền) */
+  $$("[data-i]").forEach(el => {
+    if (el.__ph === undefined) el.__ph = el.textContent;
+    el.textContent = infoText(el.dataset.i) || (l === "en" && EN[el.__ph] ? EN[el.__ph] : el.__ph);
+  });
+  const g = pick(INFO.groom), b = pick(INFO.bride);
+  document.title = t("title") + (g && b ? " · " + g + " & " + b : "");
+  /* phần do JS tạo ra */
+  $("#gt").textContent = $("#gbox").classList.contains("open") ? t("giftClose") : t("giftOpen");
+  ["#wnote", "#pnote", "#cnote"].forEach(x => $(x).textContent = "");
+  slides.forEach((d, i) => { if (d.classList.contains("ph")) d.innerHTML = t("wedPhoto") + "<br>" + (i + 1); });
+  if (!API) server = SAMPLE[lang];
+  render(); renderPhotos();
+  $$("#lang button").forEach(x => x.classList.toggle("on", x.dataset.l === l));
+}
+$$("#lang button").forEach(x => x.onclick = () => { applyLang(x.dataset.l); try { localStorage.setItem("lang", x.dataset.l); } catch (e) {} });
+applyLang(lang);
+</script>
+</body>
+</html>
