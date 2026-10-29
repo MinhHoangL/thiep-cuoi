@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Thiệp cưới · [Tên Chú Rể] &amp; [Tên Cô Dâu]</title>
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500&family=Dancing+Script:wght@500&family=Playfair+Display:ital,wght@0,500;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Send+Flowers&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg:#8e1a1d;--bg2:#6e1114;--ink:#fff3e6;--muted:#ebcfc4;--gold:#ecd08a;--line:#ecd08a66;--card:#fff3e60f;--btn:#5a0e10;
@@ -15,10 +18,11 @@
 html{scroll-padding-top:env(safe-area-inset-top,0px);background:var(--bg)}
 *,*::before,*::after{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:"Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-weight:300;line-height:1.6;padding-bottom:84px;overflow-x:hidden}
+.send-flowers-regular {font-family: "Send Flowers", cursive;font-weight: 400;font-style: normal;}
 .locked{overflow:hidden;height:100vh}
 .locked .view,.locked .tabs{visibility:hidden}
 .pf,h2{font-family:"Playfair Display",Georgia,"Times New Roman",serif}
-.sc{font-family:"Dancing Script","Brush Script MT",cursive;color:var(--gold);font-weight:500}
+.sc{font-family:"Send Flowers","Brush Script MT",cursive;color:var(--gold);font-weight:500}
 .view{display:none;position:relative;z-index:2}
 .view.on{display:block;animation:fade .6s ease both}
 #v-home.enter{animation:up 1.2s cubic-bezier(.2,.7,.2,1) both}
@@ -37,7 +41,7 @@ h2{font-weight:500;font-size:28px;color:var(--gold);margin:0 0 8px}
 .pill{display:inline-block;border-top:1px solid var(--gold);border-radius:50%/20px 20px 0 0;padding:8px 30px 0;font:italic 20px "Playfair Display",Georgia,serif;margin:2px 0 10px}
 .dl{border-bottom:2px dotted var(--gold);width:78%;margin:16px auto 22px;height:1px}
 .venue{font-size:clamp(36px,11vw,50px);line-height:1.15;margin:6px 0 10px}
-.venueFloor{font-size:clamp(36px,11vw,50px);line-height:1.15;margin:6px 0 10px}
+.venueFloor{font-size:clamp(25px,10vw,40px);line-height:1;margin:6px 0 10px}
 .dt{display:grid;grid-template-columns:1fr 1.3fr 1fr;border-top:1px solid var(--gold);border-bottom:1px solid var(--gold);margin:16px 0 10px}
 .dt>div{padding:8px 4px;display:flex;flex-direction:column;justify-content:center;font:400 12px "Playfair Display",Georgia,serif;letter-spacing:.05em}
 .dt>div+div{border-left:1px solid var(--gold)}
@@ -301,7 +305,7 @@ const INFO = {
   brideFather: "VÕ HỮU THUẤN",       // tên cha cô dâu
   brideMother: "HUỲNH THỊ ÁNH",       // tên mẹ cô dâu
   brideAddress: "",      // địa chỉ nhà gái
-  ceremonyPlace: "vi: \"Tư gia\", en: \"the family home\"", // nơi cử hành hôn lễ, ví dụ: { vi: "Tư gia", en: "the family home" }
+  ceremonyPlace: "Tư Gia", // nơi cử hành hôn lễ, ví dụ: { vi: "Tư gia", en: "the family home" }
   ceremonyTime: "",      // giờ làm lễ, ví dụ: "09:00"
   ceremonyDate: "11/07/2027",      // ngày làm lễ, ví dụ: "24/08/2030"
   ceremonyLunar: "08 tháng 06 năm 2027 Âm lịch",     // ngày âm lịch của lễ, ví dụ: "10 tháng 07 năm Canh Tuất"
