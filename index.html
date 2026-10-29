@@ -37,6 +37,7 @@ h2{font-weight:500;font-size:28px;color:var(--gold);margin:0 0 8px}
 .pill{display:inline-block;border-top:1px solid var(--gold);border-radius:50%/20px 20px 0 0;padding:8px 30px 0;font:italic 20px "Playfair Display",Georgia,serif;margin:2px 0 10px}
 .dl{border-bottom:2px dotted var(--gold);width:78%;margin:16px auto 22px;height:1px}
 .venue{font-size:clamp(36px,11vw,50px);line-height:1.15;margin:6px 0 10px}
+.venueFloor{font-size:clamp(36px,11vw,50px);line-height:1.15;margin:6px 0 10px}
 .dt{display:grid;grid-template-columns:1fr 1.3fr 1fr;border-top:1px solid var(--gold);border-bottom:1px solid var(--gold);margin:16px 0 10px}
 .dt>div{padding:8px 4px;display:flex;flex-direction:column;justify-content:center;font:400 12px "Playfair Display",Georgia,serif;letter-spacing:.05em}
 .dt>div+div{border-left:1px solid var(--gold)}
@@ -199,6 +200,7 @@ footer{text-align:center;padding:26px 24px;color:var(--gold);font:italic 16px "P
     <div class="gn gname" id="guest" aria-label="Tên khách mời"></div>
     <div class="u">Đến dự buổi tiệc chung vui<br>cùng gia đình chúng tôi tại</div>
     <div class="sc venue" data-i="venue">[Tên nơi tổ chức]</div>
+    <div class="sc venueFloor" data-i="venueFloor">[Tên sảnh]</div>
     <div class="u" style="font-size:14px" data-i="venueAddress">[Địa chỉ nơi tổ chức]</div>
     <div class="dt">
       <div><b data-i="pDay">[DD]</b><span data-i="pMonth">THÁNG [MM]</span></div>
@@ -281,11 +283,11 @@ footer{text-align:center;padding:26px 24px;color:var(--gold);font:italic 16px "P
 const CFG = {
   photos: [],        // ảnh cưới (tối đa 15). Nếu đã điền apiUrl thì ảnh tự lấy từ thư mục Drive "Ảnh cưới"
   phone: "",         // số điện thoại nhận tin nhắn lời chúc (chỉ dùng khi chưa có apiUrl)
-  mapQuery: "",      // địa chỉ để mở Google Maps
-  bank: "",          // tên ngân hàng, ví dụ: Vietcombank
-  bankBin: "",       // mã BIN ngân hàng (để trống nếu là ngân hàng phổ biến)
-  account: "",       // số tài khoản
-  holder: "",        // tên chủ tài khoản
+  mapQuery: "24 3 Tháng 2, Hòa Hưng, Hồ Chí Minh 700000, Vietnam",      // địa chỉ để mở Google Maps
+  bank: "Revolut Bank UAB",          // tên ngân hàng, ví dụ: Vietcombank
+  bankBin: "REVOLT21",       // mã BIN ngân hàng (để trống nếu là ngân hàng phổ biến)
+  account: "LT293250071152532834",       // số tài khoản
+  holder: "Minh Hoang",        // tên chủ tài khoản
   apiUrl: ""         // link Google Apps Script (kết thúc bằng /exec): lưu lời chúc, ảnh khách tải lên và lấy ảnh cưới từ Drive
 };
 // ===== THÔNG TIN THIỆP: điền vào giữa hai dấu "" (để trống thì thiệp hiện chỗ trống [..]) =====
@@ -299,15 +301,16 @@ const INFO = {
   brideFather: "VÕ HỮU THUẤN",       // tên cha cô dâu
   brideMother: "HUỲNH THỊ ÁNH",       // tên mẹ cô dâu
   brideAddress: "",      // địa chỉ nhà gái
-  ceremonyPlace: "",     // nơi cử hành hôn lễ, ví dụ: { vi: "Tư gia", en: "the family home" }
+  ceremonyPlace: "vi: \"Tư gia\", en: \"the family home\"", // nơi cử hành hôn lễ, ví dụ: { vi: "Tư gia", en: "the family home" }
   ceremonyTime: "",      // giờ làm lễ, ví dụ: "09:00"
-  ceremonyDate: "",      // ngày làm lễ, ví dụ: "24/08/2030"
-  ceremonyLunar: "",     // ngày âm lịch của lễ, ví dụ: "10 tháng 07 năm Canh Tuất"
-  venue: "",             // tên nơi tổ chức tiệc, ví dụ: Diamond Palace
-  venueAddress: "",      // địa chỉ nơi tổ chức tiệc
-  partyDate: "",         // ngày tổ chức tiệc, ví dụ: "24/08/2030"
+  ceremonyDate: "11/07/2027",      // ngày làm lễ, ví dụ: "24/08/2030"
+  ceremonyLunar: "08 tháng 06 năm 2027 Âm lịch",     // ngày âm lịch của lễ, ví dụ: "10 tháng 07 năm Canh Tuất"
+  venue: "CAPELLA GALLERY HALL",             // tên nơi tổ chức tiệc, ví dụ: Diamond Palace
+  venueFloor: "Sảnh Mercier - Tầng 3",       // tên sảnh + tầng tổ chức tiệc
+  venueAddress: "24 đường 3 tháng 2, Hòa Hưng, TP.HCM",      // địa chỉ nơi tổ chức tiệc
+  partyDate: "11/07/2027",         // ngày tổ chức tiệc, ví dụ: "24/08/2030"
   partyTime: "",         // giờ tiệc, ví dụ: "10:30"
-  partyLunar: ""         // ngày âm lịch của tiệc
+  partyLunar: "08 tháng 06 năm 2027 Âm lịch"         // ngày âm lịch của tiệc
 };
 // ========================
 const $ = s => document.querySelector(s);
@@ -567,7 +570,7 @@ const EN = {
   "Hôn lễ được cử hành tại": "The ceremony will be held at", "[Tư gia]": "[Venue]", "Vào lúc:": "At:", "[Giờ] giờ [Phút]": "[Time]",
   "* [DD]. [MM]. [YYYY] *": "* [Date] *", "Nhằm ngày [..] tháng [..] năm [..]": "Lunar date: [..]",
   "TRÂN TRỌNG KÍNH MỜI:": "CORDIALLY INVITED:", "Đến dự buổi tiệc chung vui": "to join our wedding celebration", "cùng gia đình chúng tôi tại": "with our families at",
-  "[Tên nơi tổ chức]": "[Venue name]", "[Địa chỉ nơi tổ chức]": "[Venue address]", "THÁNG [MM]": "[MONTH]", "VÀO LÚC": "AT", "[Giờ]": "[Time]", "[Năm]": "[Year]",
+  "[Tên nơi tổ chức]": "[Venue name]", "[Tên sảnh]": "[Floor]", "[Địa chỉ nơi tổ chức]": "[Venue address]", "THÁNG [MM]": "[MONTH]", "VÀO LÚC": "AT", "[Giờ]": "[Time]", "[Năm]": "[Year]",
   "(Nhằm ngày [..] tháng [..] năm [..])": "(Lunar date: [..])",
   "Sự hiện diện của quý khách": "Your presence", "là niềm vinh hạnh cho gia đình chúng tôi": "is an honor to our families", "KÍNH MỜI!": "PLEASE JOIN US!", "Xem bản đồ": "View map",
   "Ảnh cưới": "Photos", "Những khoảnh khắc của chúng mình": "Moments we’d love to share with you", "Ảnh trước": "Previous photo", "Ảnh sau": "Next photo",
