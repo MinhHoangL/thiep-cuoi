@@ -7,7 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500&family=Dancing+Script:wght@500&family=Playfair+Display:ital,wght@0,500;0,700;1,400&display=swap" rel="stylesheet">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Send+Flowers&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Italianno&family=Send+Flowers&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg:#8e1a1d;--bg2:#6e1114;--ink:#fff3e6;--muted:#ebcfc4;--gold:#ecd08a;--line:#ecd08a66;--card:#fff3e60f;--btn:#5a0e10;
@@ -19,10 +19,12 @@ html{scroll-padding-top:env(safe-area-inset-top,0px);background:var(--bg)}
 *,*::before,*::after{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:"Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-weight:300;line-height:1.6;padding-bottom:84px;overflow-x:hidden}
 .send-flowers-regular {font-family: "Send Flowers", cursive;font-weight: 400;font-style: normal;}
+.italianno-regular {font-family: "Italianno", cursive;font-weight: 400;font-style: normal;}
 .locked{overflow:hidden;height:100vh}
 .locked .view,.locked .tabs{visibility:hidden}
 .pf,h2{font-family:"Playfair Display",Georgia,"Times New Roman",serif}
 .sc{font-family:"Send Flowers","Brush Script MT",cursive;color:var(--gold);font-weight:500}
+.scVenue{font-family:"Italianno","Brush Script MT",cursive;color:var(--gold);font-weight:500}
 .view{display:none;position:relative;z-index:2}
 .view.on{display:block;animation:fade .6s ease both}
 #v-home.enter{animation:up 1.2s cubic-bezier(.2,.7,.2,1) both}
@@ -178,8 +180,8 @@ footer{text-align:center;padding:26px 24px;color:var(--gold);font:italic 16px "P
 <div class="view on" id="v-home">
   <section class="rv">
     <div class="par">
-      <div><small>NHÀ TRAI</small>Ông: <b data-i="groomFather">[Tên cha chú rể]</b><br>Bà: <b data-i="groomMother">[Tên mẹ chú rể]</b><span data-i="groomAddress">[Địa chỉ]</span></div>
-      <div><small>NHÀ GÁI</small>Ông: <b data-i="brideFather">[Tên cha cô dâu]</b><br>Bà: <b data-i="brideMother">[Tên mẹ cô dâu]</b><span data-i="brideAddress">[Địa chỉ]</span></div>
+      <div><small>NHÀ TRAI</small>Ông: <b data-i="groomFather">[Tên cha chú rể]</b><br>Bà: <b data-i="groomMother">[Tên mẹ chú rể]</b><span data-i="groomAddress"></span></div>
+      <div><small>NHÀ GÁI</small>Ông: <b data-i="brideFather">[Tên cha cô dâu]</b><br>Bà: <b data-i="brideMother">[Tên mẹ cô dâu]</b><span data-i="brideAddress"></span></div>
     </div>
   </section>
 
@@ -203,8 +205,8 @@ footer{text-align:center;padding:26px 24px;color:var(--gold);font:italic 16px "P
     <div class="big" style="font-size:19px">TRÂN TRỌNG KÍNH MỜI:</div>
     <div class="gn gname" id="guest" aria-label="Tên khách mời"></div>
     <div class="u">Đến dự buổi tiệc chung vui<br>cùng gia đình chúng tôi tại</div>
-    <div class="sc venue" data-i="venue">[Tên nơi tổ chức]</div>
-    <div class="sc venueFloor" data-i="venueFloor">[Tên sảnh]</div>
+    <div class="scVenue venue" data-i="venue">[Tên nơi tổ chức]</div>
+    <div class="scVenue venueFloor" data-i="venueFloor">[Tên sảnh]</div>
     <div class="u" style="font-size:14px" data-i="venueAddress">[Địa chỉ nơi tổ chức]</div>
     <div class="dt">
       <div><b data-i="pDay">[DD]</b><span data-i="pMonth">THÁNG [MM]</span></div>
@@ -287,7 +289,7 @@ footer{text-align:center;padding:26px 24px;color:var(--gold);font:italic 16px "P
 const CFG = {
   photos: [],        // ảnh cưới (tối đa 15). Nếu đã điền apiUrl thì ảnh tự lấy từ thư mục Drive "Ảnh cưới"
   phone: "",         // số điện thoại nhận tin nhắn lời chúc (chỉ dùng khi chưa có apiUrl)
-  mapQuery: "24 3 Tháng 2, Hòa Hưng, Hồ Chí Minh 700000, Vietnam",      // địa chỉ để mở Google Maps
+  mapQuery: "CAPELLA GALLERY HALL",      // địa chỉ để mở Google Maps
   bank: "Revolut Bank UAB",          // tên ngân hàng, ví dụ: Vietcombank
   bankBin: "REVOLT21",       // mã BIN ngân hàng (để trống nếu là ngân hàng phổ biến)
   account: "LT293250071152532834",       // số tài khoản
@@ -306,14 +308,14 @@ const INFO = {
   brideMother: "Huỳnh Thị Ánh",       // tên mẹ cô dâu
   brideAddress: "",      // địa chỉ nhà gái
   ceremonyPlace: "Tư Gia", // nơi cử hành hôn lễ, ví dụ: { vi: "Tư gia", en: "the family home" }
-  ceremonyTime: "",      // giờ làm lễ, ví dụ: "09:00"
+  ceremonyTime: "09:00",      // giờ làm lễ, ví dụ: "09:00"
   ceremonyDate: "11/07/2027",      // ngày làm lễ, ví dụ: "24/08/2030"
   ceremonyLunar: "08 tháng 06 năm 2027 Âm lịch",     // ngày âm lịch của lễ, ví dụ: "10 tháng 07 năm Canh Tuất"
   venue: "Capella Gallery Hall",             // tên nơi tổ chức tiệc, ví dụ: Diamond Palace
   venueFloor: "Sảnh Mercier - Tầng 3",       // tên sảnh + tầng tổ chức tiệc
   venueAddress: "24 đường 3 tháng 2, Hòa Hưng, TP.HCM",      // địa chỉ nơi tổ chức tiệc
   partyDate: "11/07/2027",         // ngày tổ chức tiệc, ví dụ: "24/08/2030"
-  partyTime: "",         // giờ tiệc, ví dụ: "10:30"
+  partyTime: "12:00",         // giờ tiệc, ví dụ: "10:30"
   partyLunar: "08 tháng 06 năm 2027 Âm lịch"         // ngày âm lịch của tiệc
 };
 // ========================
